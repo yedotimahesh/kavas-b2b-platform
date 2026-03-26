@@ -1,6 +1,5 @@
 "use client";
 import React from 'react'
-
 import { Button } from "@/components/ui/button";
 import { MapPin, Search, ShoppingCart, Moon, ArrowRight, Heart , ChevronDown} from "lucide-react";
 
