@@ -10,12 +10,16 @@ const roleMiddleware = require("./middleware/roleMiddleware");
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
 app.use(express.json());
 
 app.use(cookieParser());
 
-app.use("/api/auth", authRoutes);
+app.use("/", authRoutes);
 
 pool.query("SELECT NOW()")
   .then(res => console.log("DB Connected:", res.rows))
