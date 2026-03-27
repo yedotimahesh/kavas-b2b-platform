@@ -112,7 +112,7 @@ export default function TrendingProducts() {
         {products.map((item) => (
           <div
             key={item.id}
-            className="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group overflow-hidden transform hover:-translate-y-2 h-[320px] flex flex-col"
+            className="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group overflow-hidden transform hover:-translate-y-2 h-80 flex flex-col"
           >
             {/* Image */}
             <div className="relative h-55 overflow-hidden">
