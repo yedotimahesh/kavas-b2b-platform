@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button";
 import { MapPin, Search, ShoppingCart, Moon, Heart, ChevronDown } from "lucide-react";
 import Login from "../auth/Login";
@@ -9,10 +9,33 @@ import Link from "next/link";
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState("login");
+    const [darkMode, setDarkMode] = useState(false);
+
+    useEffect(() => {
+        const saved = localStorage.getItem("theme");
+
+        if (saved === "dark") {
+            document.documentElement.classList.add("dark");
+            setDarkMode(true);
+        }
+    }, []);
+
+    const toggleDarkMode = () => {
+        const newMode = !darkMode;
+        setDarkMode(newMode);
+
+        if (newMode) {
+            document.documentElement.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    };
 
     return (
         <>
-            <div className="w-full shadow-sm border-b bg-white">
+            <div className="w-full shadow-sm border-b bg-white dark:bg-gray-900 text-black dark:text-white">
                 <div className="bg-black text-white text-xs py-2 overflow-hidden hidden sm:block">
                     <div className="whitespace-nowrap animate-marquee flex gap-10 px-4">
                         <span>Pro Membership — 14 days free trial, no credit card needed</span>
@@ -40,7 +63,7 @@ const Navbar = () => {
                         <div className="w-full order-3 lg:order-0 flex-1 flex items-center max-w-full lg:max-w-2xl rounded shadow-lg">
                             <input
                                 placeholder="Search products, suppliers, brands......."
-                                className="h-10 w-full rounded-l-md border border-gray-300 bg-white px-3 text-sm outline-none"
+                                className="h-10 w-full rounded-l-md border border-gray-300 bg-white dark:bg-gray-800 dark:text-white dark:border-gray-600 px-3 text-sm outline-none"
                             />
                             <div className="h-10 px-3 sm:px-4 flex justify-center items-center rounded-r-md bg-orange-500 hover:bg-orange-600 text-white text-sm">
                                 <Search size={16} className="mr-1 sm:mr-2" />
@@ -49,8 +72,8 @@ const Navbar = () => {
                         </div>
                         <div className="flex items-center gap-2 ml-auto shrink-0">
 
-                            <Button variant="outline" size="icon" className="h-9 w-9 sm:h-10 sm:w-10">
-                                <Moon className="h-4 w-4" />
+                            <Button onClick={toggleDarkMode} variant="outline" size="icon" className="h-9 w-9 sm:h-10 sm:w-10">
+                                {darkMode ? "☀️" : "🌙"}
                             </Button>
 
                             <Button

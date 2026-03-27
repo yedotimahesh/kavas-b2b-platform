@@ -8,7 +8,7 @@ const { redis } = require("../config/redis");
 
 exports.register = async (req, res) => {
   try {
-    const { full_name, email, password, role } = req.body;
+    const { full_name, email, password, phone,  role } = req.body;
 
     const allowedRoles = ["buyer", "vendor"];
     const userRole = allowedRoles.includes(role) ? role : "buyer";
@@ -16,10 +16,10 @@ exports.register = async (req, res) => {
     const hashed = await bcrypt.hash(password, 10);
 
     const result = await pool.query(
-      `INSERT INTO users (full_name, email, password_hash, role)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id, full_name, email, role`,
-      [full_name, email, hashed, userRole]
+      `INSERT INTO users (full_name, email, password_hash, phone, role)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING id, full_name, email, phone, role`,
+      [full_name, email, hashed, phone, userRole]
     );
 
     res.json(result.rows[0]);

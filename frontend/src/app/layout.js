@@ -24,7 +24,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={` ${roboto.variable} ${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300">
         <ReduxProvider>
           <Navbar />
           <main className="flex-1">{children}</main>
