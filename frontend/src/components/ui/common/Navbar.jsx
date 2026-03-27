@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Button } from "@/components/ui/button";
 import { MapPin, Search, ShoppingCart, Moon, Heart, ChevronDown } from "lucide-react";
 import Login from "../auth/Login";
+import Link from "next/link";
 
 const Navbar = () => {
     const [showLogin, setShowLogin] = useState(false);
@@ -35,10 +36,12 @@ const Navbar = () => {
                             <Button variant="outline" className="h-10" onClick={() => setShowLogin(true)}>Sign in</Button>
                             <Button variant="outline" size="icon" className="h-10 w-10"> <Heart color="#9e1a1a" /> </Button>
                             <Button variant="outline" className="h-10 gap-2">
-                                <span className="relative">
-                                    <ShoppingCart className="h-4 w-4" /> <span className="absolute -top-5 -right-13 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">0</span>
-                                </span>
-                                Cart
+                                <Link href="/cart" className="flex gap-2">
+                                 <span className="relative">
+                                      <ShoppingCart className="h-4 w-4" /> <span className="absolute -top-5 -right-13 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">0</span>
+                                 </span>
+                                    Cart
+                                </Link>
                             </Button>
                         </div>
                     </div>
