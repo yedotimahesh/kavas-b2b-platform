@@ -1,13 +1,14 @@
 
-import Hero from "@/components/ui/common/Hero";
+
 import Navbar from "@/components/ui/common/Navbar";
 import Footer from "@/components/ui/common/Footer";
+import Home from "@/components/ui/common/Home";
 
-export default function Home() {
+export default function Page() {
   return (
     <>
     <Navbar />
-    <Hero/>
+    <Home />
     <Footer/>
     
     </>
