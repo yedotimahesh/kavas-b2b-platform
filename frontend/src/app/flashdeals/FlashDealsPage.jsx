@@ -53,7 +53,6 @@ export default function FlashDealsPage() {
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
-      {/* HEADER */}
       <div className="bg-gradient-to-r from-orange-800 to-orange-500 text-white rounded-xl p-8 text-center relative overflow-hidden">
         <h1 className="text-3xl font-bold mb-2">
           🔥 Flash Deals & Bulk Discounts
@@ -66,8 +65,6 @@ export default function FlashDealsPage() {
           {formatTime()}
         </div>
       </div>
-
-      {/* FILTERS */}
       <div className="flex gap-3 mt-6 flex-wrap justify-center">
         {["All Deals", "Electronics", "Apparel", "Hardware", "FMCG"].map(
           (item, i) => (
@@ -77,11 +74,10 @@ export default function FlashDealsPage() {
             >
               {item}
             </button>
-          )
+          ),
         )}
       </div>
 
-      {/* COUPONS */}
       <div className="bg-gradient-to-r from-orange-900 to-orange-600 text-white mt-6 p-6 rounded-xl">
         <h2 className="font-bold mb-4">🏷 Exclusive Coupon Codes</h2>
 
@@ -99,7 +95,6 @@ export default function FlashDealsPage() {
         </div>
       </div>
 
-      {/* PRODUCTS */}
       <div className="mt-6">
         <h2 className="font-bold mb-4 text-lg">Today's Best Deals</h2>
 
