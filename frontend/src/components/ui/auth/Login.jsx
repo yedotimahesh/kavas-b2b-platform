@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserThunk } from "@/store/slices/authSlice";
 

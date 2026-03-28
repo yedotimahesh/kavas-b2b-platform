@@ -35,6 +35,7 @@ const Navbar = () => {
             localStorage.setItem("theme", "light");
         }
     };
+    const [dropdown, setDropdown] = useState(false);
 
     const dispatch = useDispatch();
     const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -60,11 +61,10 @@ const Navbar = () => {
                         <span>Help Centre — 24/7 support available</span>
                     </div>
                 </div>
-
                 <div className="w-full">
                     <div className="flex flex-wrap lg:flex-nowrap items-center gap-3 px-4 sm:px-6 lg:px-10 py-2">
                         <div className="flex items-center shrink-0 h-16 sm:h-20">
-                            <Link href="/" onClick={() => {router.push("/"); window.scrollTo({ top: 0, behavior: "smooth" });}}>
+                            <Link href="/" onClick={() => { router.push("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
                                 <img src="/KAVASlogo.png" alt="KAVAS Logo" className="h-10 sm:h-12 md:h-14 w-auto object-contain cursor-pointer" />
                             </Link>
                         </div>
