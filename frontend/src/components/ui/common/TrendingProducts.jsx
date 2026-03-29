@@ -1,4 +1,6 @@
+import Link from "next/link";
 import React from "react";
+
 
 const products = [
   {
@@ -106,10 +108,9 @@ export default function TrendingProducts() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
         {products.map((item) => (
-          <div
+          <Link href={`/products/${item.id}`}
             key={item.id}
-            className="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group overflow-hidden transform hover:-translate-y-2 h-80 flex flex-col"
-          >
+            className="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group overflow-hidden transform hover:-translate-y-2 h-80 flex flex-col">
             <div className="relative h-55 overflow-hidden">
               <img
                 src={item.image}
@@ -140,7 +141,7 @@ export default function TrendingProducts() {
                 {item.company}
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

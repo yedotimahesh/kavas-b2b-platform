@@ -116,7 +116,6 @@ export default function FlashDealsPage() {
                   {item.discount} OFF
                 </span>
               </div>
-
               <div className="p-4">
                 <h3 className="text-sm font-semibold">{item.title}</h3>
 
