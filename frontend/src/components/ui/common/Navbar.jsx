@@ -6,8 +6,7 @@ import Login from "../auth/Login";
 import Register from "../auth/Register";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { logout as logoutAction } from "@/store/slices/authSlice";
-import { logoutUser } from "@/services/authService";
+import { logoutUserThunk } from "@/store/slices/authSlice";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
@@ -38,7 +37,9 @@ const Navbar = () => {
     const [dropdown, setDropdown] = useState(false);
 
     const dispatch = useDispatch();
-    const { user, isAuthenticated } = useSelector((state) => state.auth);
+    const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
+
+    if (loading) return null;
 
     const [initialEmail, setInitialEmail] = useState("");
     const dropdownRef = useRef(null);
@@ -56,14 +57,9 @@ const Navbar = () => {
         };
     }, []);
 
-    const handleLogout = async () => {
-        try {
-            await logoutUser();
-        } catch (e) {
-        } finally {
-            dispatch(logoutAction());
-            setDropdown(false);
-        }
+    const handleLogout = () => {
+        dispatch(logoutUserThunk());
+        setDropdown(false);
     };
     return (
         <>
@@ -112,7 +108,7 @@ const Navbar = () => {
                                         </span>
                                     </Button>
                                     {dropdown && (
-                                        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 overflow-hidden">
+                                        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 overflow-hidden dark:bg-gray-900">
                                             <div className="px-4 py-3 text-xs bg-orange-500 text-white border-b font-bold justify-center flex">
                                                 {user?.email}
                                             </div>

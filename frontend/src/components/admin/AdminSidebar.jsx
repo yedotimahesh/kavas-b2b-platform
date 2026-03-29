@@ -1,139 +1,22 @@
-// "use client";
-
-// import Link from "next/link";
-// import { usePathname } from "next/navigation";
-// import {
-//   LayoutDashboard,
-//   BarChart2,
-//   Users,
-//   ShoppingCart,
-//   ShieldCheck,
-//   Store,
-//   Package,
-//   CreditCard,
-//   FileText,
-//   AlertTriangle,
-//   Layers,
-//   Crown,
-//   Settings
-// } from "lucide-react";
-
-// const Sidebar = () => {
-//   const pathname = usePathname();
-//   return (
-//     <div className="w-64 h-screen bg-[#111] text-white flex flex-col p-4">
-      
-//       {/* Logo */}
-//       <div className="flex items-center gap-3 mb-6">
-//         <div className="bg-orange-500 w-10 h-10 flex items-center justify-center rounded-md font-bold">
-//           K
-//         </div>
-//         <div>
-//           <h2 className="font-semibold text-lg">Kavas</h2>
-//           <p className="text-xs text-gray-400">Admin Console</p>
-//         </div>
-//       </div>
-
-//       {/* Section */}
-//       <Section title="OVERVIEW">
-//         <Item icon={<LayoutDashboard size={18} />} label="Dashboard" href="/admin/dashboard" active />
-//         <Item icon={<BarChart2 size={18} />} label="Analytics" href="/admin/analytics" />
-//       </Section>
-
-//       <Section title="BUYERS">
-//         <Item icon={<Users size={18} />} label="All Buyers" badge="2" />
-//         <Item icon={<ShoppingCart size={18} />} label="Buyer Orders" badge="2" />
-//         <Item icon={<ShieldCheck size={18} />} label="KYC Approvals" badge="3" />
-//       </Section>
-
-//       <Section title="VENDORS">
-//         <Item icon={<Store size={18} />} label="All Vendors" badge="1" />
-//         <Item icon={<Package size={18} />} label="Products" />
-//         <Item icon={<CreditCard size={18} />} label="Payouts" badge="2" />
-//         <Item icon={<ShieldCheck size={18} />} label="Vendor KYC" badge="3" />
-//       </Section>
-
-//       <Section title="OPERATIONS">
-//         <Item icon={<FileText size={18} />} label="All Orders" />
-//         <Item icon={<AlertTriangle size={18} />} label="Disputes" badge="2" />
-//         <Item icon={<Layers size={18} />} label="Categories" />
-//         <Item icon={<Crown size={18} />} label="Memberships" />
-//       </Section>
-
-//       <Section title="SETTINGS">
-//         <Item icon={<Settings size={18} />} label="Settings" />
-//       </Section>
-//     </div>
-//   );
-// };
-
-// export default Sidebar;
-
-// const Section = ({ title, children }) => (
-//   <div className="mb-6">
-//     <p className="text-xs text-gray-400 mb-2">{title}</p>
-//     <div className="space-y-1">{children}</div>
-//   </div>
-// );
-
-// const Item = ({ icon, label, href = "#", badge, active }) => (
-//   <Link href={href}>
-//     <div
-//       className={`flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition 
-//       ${active ? "bg-orange-500 text-white" : "hover:bg-gray-800 text-gray-300"}`}
-//     >
-//       <div className="flex items-center gap-3">
-//         {icon}
-//         <span className="text-sm">{label}</span>
-//       </div>
-
-//       {badge && (
-//         <span className="bg-orange-500 text-xs px-2 py-0.5 rounded-full">
-//           {badge}
-//         </span>
-//       )}
-//     </div>
-//   </Link>
-// );
-
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  BarChart2,
-  Users,
-  ShoppingCart,
-  ShieldCheck,
-  Store,
-  Package,
-  CreditCard,
-  FileText,
-  AlertTriangle,
-  Layers,
-  Crown,
-  Settings
-} from "lucide-react";
+import { LayoutDashboard, BarChart2, Users, ShoppingCart, ShieldCheck, Store,
+  Package, CreditCard, FileText,  AlertTriangle, Layers, Crown, Settings } from "lucide-react";
 
 const Sidebar = () => {
-  const pathname = usePathname(); // 🔥 get current route
+  const pathname = usePathname(); 
 
   return (
     <div className="w-64 h-screen bg-[#111] text-white flex flex-col p-4">
-
-      {/* Logo */}
       <div className="flex items-center gap-3 mb-6">
-        <div className="bg-orange-500 w-10 h-10 flex items-center justify-center rounded-md font-bold">
-          K
-        </div>
+        <div className="bg-orange-500 w-10 h-10 flex items-center justify-center rounded-md font-bold">K</div>
         <div>
           <h2 className="font-semibold text-lg">Kavas</h2>
           <p className="text-xs text-gray-400">Admin Console</p>
         </div>
       </div>
-
-      {/* OVERVIEW */}
       <Section title="OVERVIEW">
         <Item
           icon={<LayoutDashboard size={18} />}
@@ -148,8 +31,6 @@ const Sidebar = () => {
           active={pathname.startsWith("/admin/analytics")}
         />
       </Section>
-
-      {/* BUYERS */}
       <Section title="BUYERS">
         <Item
           icon={<Users size={18} />}
@@ -173,8 +54,6 @@ const Sidebar = () => {
           active={pathname.startsWith("/admin/kyc")}
         />
       </Section>
-
-      {/* VENDORS */}
       <Section title="VENDORS">
         <Item
           icon={<Store size={18} />}
@@ -204,8 +83,6 @@ const Sidebar = () => {
           active={pathname.startsWith("/admin/vendor-kyc")}
         />
       </Section>
-
-      {/* OPERATIONS */}
       <Section title="OPERATIONS">
         <Item
           icon={<FileText size={18} />}
@@ -233,8 +110,6 @@ const Sidebar = () => {
           active={pathname.startsWith("/admin/memberships")}
         />
       </Section>
-
-      {/* SETTINGS */}
       <Section title="SETTINGS">
         <Item
           icon={<Settings size={18} />}
@@ -249,12 +124,6 @@ const Sidebar = () => {
 
 export default Sidebar;
 
-
-
-
-
-/* ----------------- Helpers ----------------- */
-
 const Section = ({ title, children }) => (
   <div className="mb-6">
     <p className="text-xs text-gray-400 mb-2">{title}</p>
@@ -266,22 +135,10 @@ const Item = ({ icon, label, href = "#", badge, active }) => (
   <Link href={href}>
     <div
       className={`flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition
-      ${
-        active
-          ? "bg-orange-500 text-white"
-          : "text-gray-300 hover:bg-gray-800"
-      }`}
+      ${active ? "bg-orange-500 text-white" : "text-gray-300 hover:bg-gray-800"}`}
     >
-      <div className="flex items-center gap-3">
-        {icon}
-        <span className="text-sm">{label}</span>
-      </div>
-
-      {badge && (
-        <span className="bg-orange-500 text-xs px-2 py-0.5 rounded-full">
-          {badge}
-        </span>
-      )}
+      <div className="flex items-center gap-3">{icon}<span className="text-sm">{label}</span></div>
+      {badge && (<span className="bg-orange-500 text-xs px-2 py-0.5 rounded-full">{badge}</span>)}
     </div>
   </Link>
 );
