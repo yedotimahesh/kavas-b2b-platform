@@ -1,9 +1,5 @@
 "use client";
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react'
-=======
 import React, { useState, useRef, useEffect } from "react";
->>>>>>> a2d797040b95f2c06c08d84a00606ff58d738103
 import { Button } from "@/components/ui/button";
 import { MapPin, Search, ShoppingCart, Moon, Heart, ChevronDown, User, Package, HelpCircle } from "lucide-react";
 import Login from "../auth/Login";
@@ -81,21 +77,11 @@ const Navbar = () => {
                 </div>
                 <div className="w-full">
                     <div className="flex flex-wrap lg:flex-nowrap items-center gap-3 px-4 sm:px-6 lg:px-10 py-2">
-<<<<<<< HEAD
                         <div className="flex items-center shrink-0 h-16 sm:h-20">
                             <Link href="/" onClick={() => { router.push("/"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
                                 <img src="/KAVASlogo.png" alt="KAVAS Logo" className="h-10 sm:h-12 md:h-14 w-auto object-contain cursor-pointer" />
                             </Link>
                         </div>
-=======
-                        <Link href="/" className="flex items-center shrink-0 h-16 sm:h-20">
-                            <img
-                                src="/KAVASlogo.png"
-                                alt="KAVAS Logo"
-                                className="h-10 sm:h-12 md:h-14 w-auto object-contain cursor-pointer"
-                            />
-                        </Link>
->>>>>>> a2d797040b95f2c06c08d84a00606ff58d738103
                         <div className="hidden sm:flex items-center gap-2 border rounded-md px-3 py-1.5 h-10 bg-gray-50 hover:bg-gray-100 shrink-0">
                             <MapPin size={18} className="text-gray-600" />
                             <div className="flex items-center gap-1 text-sm text-gray-600">Deliver to <ChevronDown size={16} /></div>
@@ -114,21 +100,6 @@ const Navbar = () => {
                             {!isAuthenticated ? (
                                 <Button variant="outline" className="h-9 sm:h-10 text-xs sm:text-sm px-2 sm:px-3" onClick={() => { setMode("login"); setInitialEmail(""); setOpen(true); }}> Sign in </Button>
                             ) : (
-<<<<<<< HEAD
-                                <div className="relative">
-                                    <Button variant="outline" className="h-9 sm:h-10 px-3 text-xs sm:text-sm" onClick={() => setDropdown(!dropdown)}>
-                                        <User className="h-4 w-4 mr-2" /> {(user?.full_name || user?.name || "User").split(" ")[0]}
-                                    </Button>
-                                    {dropdown && (
-                                        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 overflow-hidden">
-                                            <div className="px-4 py-3 text-xs text-gray-500 border-b"> {user?.email}</div>
-                                            <div className="flex flex-col">
-                                                <Link href="/profile" className="px-4 py-2 text-sm hover:bg-gray-100 border-b"> Profile </Link>
-                                                <Link href="/orders" className="px-4 py-2 text-sm hover:bg-gray-100 border-b"> Orders </Link>
-                                                <Link href="/wishlist" className="px-4 py-2 text-sm hover:bg-gray-100 border-b"> Favourites </Link>
-                                                <Link href="/help" className="px-4 py-2 text-sm hover:bg-gray-100 border-b"> Help </Link>
-                                                <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-500"> Logout </button>
-=======
                                 <div className="relative" ref={dropdownRef}>
                                     <Button
                                         variant="outline"
@@ -192,7 +163,6 @@ const Navbar = () => {
                                                     Logout
                                                 </button>
 
->>>>>>> a2d797040b95f2c06c08d84a00606ff58d738103
                                             </div>
                                         </div>
                                     )}
@@ -212,27 +182,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
             {mode === "login" ? (<Login open={open} setOpen={setOpen} setMode={setMode} />) : (<Register open={open} setOpen={setOpen} setMode={setMode} />)}
-=======
-            {mode === "login" ? (
-                <Login
-                    open={open}
-                    setOpen={setOpen}
-                    setMode={setMode}
-                    initialEmail={initialEmail}
-                />
-            ) : (
-                <Register
-                    open={open}
-                    setOpen={setOpen}
-                    setMode={setMode}
-                    onRegistered={({ email }) => {
-                        setInitialEmail(email || "");
-                    }}
-                />
-            )}
->>>>>>> a2d797040b95f2c06c08d84a00606ff58d738103
         </>
     )
 }

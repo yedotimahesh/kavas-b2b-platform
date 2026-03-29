@@ -110,7 +110,7 @@ const Hero = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [activeCategory, setActiveCategory] = useState(categories[0]);
     return (
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-gray-50 min-h-screen dark:bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
                 <div className="flex flex-col lg:flex-row gap-6">
                     <div
@@ -201,7 +201,7 @@ const Hero = () => {
                             FREE
                         </div>
                         <CardContent className="px-6 py-4">
-                            <h2 className="font-semibold text-base sm:text-lg leading-tight">
+                            <h2 className="font-semibold text-base sm:text-lg leading-tight dark:text-black">
                                 Looking <br /> for a Product?
                             </h2>
                             <Button className="mt-2 bg-white text-black text-sm px-4 py-1.5">
