@@ -108,8 +108,8 @@ const Navbar = () => {
                                         </span>
                                     </Button>
                                     {dropdown && (
-                                        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 overflow-hidden dark:bg-gray-900">
-                                            <div className="px-4 py-3 text-xs bg-orange-500 text-white border-b font-bold justify-center flex">
+                                        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 overflow-hidden dark:bg-gray-900 dark:text-white">
+                                            <div className="px-4 py-3 text-xs bg-orange-500 text-white dark:bg-gray-900 border-b font-bold justify-center flex">
                                                 {user?.email}
                                             </div>
 
@@ -118,7 +118,7 @@ const Navbar = () => {
                                                 <Link
                                                     href="/profile"
                                                     onClick={() => setDropdown(false)}
-                                                    className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 border-b"
+                                                    className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 dark:hover:text-black border-b"
                                                 >
                                                     <User className="h-4 w-4" />
                                                     Profile
