@@ -1,6 +1,7 @@
 import { Roboto, Inter } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/store/provider";
+import AuthLoader from "@/components/AuthLoader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,7 +25,9 @@ export default function RootLayout({ children }) {
     <html lang="en" className={` ${roboto.variable} ${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-white text-black dark:bg-gray-900 dark:text-white transition-colors duration-300">
         <ReduxProvider>
+          <AuthLoader>
           <main className="flex-1">{children}</main>
+          </AuthLoader>
         </ReduxProvider>
         </body>
     </html>

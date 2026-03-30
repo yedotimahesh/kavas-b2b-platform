@@ -1,170 +1,215 @@
 "use client";
 
-import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
-
-const products = [
-  {
-    id: "1",
-    title: "Wireless Earbuds TWS Pro Bulk",
-    price: 580,
-    image:
-      "https://images.unsplash.com/photo-1585386959984-a4155224a1ad",
-    brand: "TechLink",
-  },
-  {
-    id: "2",
-    title: "Power Bank 20000mAh OEM",
-    price: 750,
-    image:
-      "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5",
-    brand: "EnergyTech",
-  },
-];
+import { products } from "@/data/products";
+import { useState } from "react";
 
 export default function ProductView() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id;
 
-  const product = products.find((p) => p.id === id) || products[0];
+  const product = products.find((p) => p.id == id);
 
   const [qty, setQty] = useState(50);
+  const [wishlist, setWishlist] = useState(false);
 
-  const increase = () => setQty(qty + 1);
-  const decrease = () => qty > 1 && setQty(qty - 1);
+  // ✅ BULK TIERS LOGIC
+  const tiers = [
+    { min: 50, max: 99, price: 580 },
+    { min: 100, max: 249, price: 539 },
+    { min: 250, max: 499, price: 505 },
+    { min: 500, max: Infinity, price: 464 },
+  ];
 
-  // 🔥 Add to Cart API
-  const addToCart = async () => {
-    try {
-      await fetch("http://localhost:5000/api/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          productId: product.id,
-          quantity: qty,
-        }),
-      });
+  const activeTier = tiers.find((t) => qty >= t.min && qty <= t.max);
 
-      alert("Added to cart ✅");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  if (!product) {
+    return <div className="p-10 text-center">Product Not Found</div>;
+  }
 
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
-      <div className="grid md:grid-cols-2 gap-8">
+    <div className="bg-gray-100 min-h-screen p-4 sm:p-6 lg:px-24">
+      <div className="grid lg:grid-cols-2 gap-7 items-start">
 
         {/* LEFT IMAGE */}
-        <motion.div
-          whileHover={{ scale: 1.03 }}
-          className="bg-white p-4 rounded-xl shadow"
-        >
-          <img
-            src={product.image}
-            alt=""
-            className="w-full h-[400px] object-contain"
-          />
-        </motion.div>
+        <div className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition duration-300 relative">
 
-        {/* RIGHT DETAILS */}
-        <div>
+          {/* ❤️ WISHLIST */}
+          <button
+            onClick={() => setWishlist(!wishlist)}
+            className="absolute top-3 right-3 text-xl bg-white rounded-full p-2 shadow hover:scale-110 transition"
+          >
+            {wishlist ? "❤️" : "🤍"}
+          </button>
+
+          <div className="overflow-hidden rounded-lg">
+            <img
+              src={product.image}
+              className="w-full h-[250px] sm:h-[320px] lg:h-[420px] object-contain transition duration-500 hover:scale-105"
+            />
+          </div>
+        </div>
+
+        {/* RIGHT CONTENT */}
+        <div className="pt-2 sm:pt-5">
 
           {/* TITLE */}
-          <h1 className="text-2xl font-bold">{product.title}</h1>
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-bold">
+            {product.title}
+          </h1>
 
-          <p className="text-yellow-500 mt-1">
-            ⭐ 4.8 (124 reviews) • {product.brand}
+          {/* RATING */}
+          <p className="text-xs sm:text-sm text-gray-500 mt-1">
+            ⭐⭐⭐⭐⭐ <span>4.8</span>{" "}
+            <span className="text-blue-500">(124 reviews)</span> •{" "}
+            {product.company}
           </p>
 
-          {/* PRICING TIERS */}
-          <div className="bg-yellow-100 p-4 rounded-lg mt-4 border">
-            <p className="font-semibold mb-3">
+          {/* BULK PRICING */}
+          <div className="mt-2 bg-yellow-50 border border-yellow-300 rounded-xl p-5 h-auto">
+            <p className="text-xs sm:text-sm font-medium mb-2">
               💰 Bulk pricing tiers — save more when you order more:
             </p>
 
-            <div className="flex gap-3 flex-wrap">
-              {[
-                { range: "50-99", price: 580 },
-                { range: "100-249", price: 539 },
-                { range: "250-499", price: 505 },
-                { range: "500+", price: 464 },
-              ].map((tier, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.1 }}
-                  className="border px-4 py-2 rounded-lg cursor-pointer hover:bg-orange-200 transition"
-                >
-                  {tier.range} units
-                  <div className="text-orange-600 font-bold">
-                    ₹{tier.price}
+            <div className="flex flex-wrap gap-2 sm:gap-5 cursor-pointer">
+
+              {tiers.map((tier, i) => {
+                const isActive =
+                  qty >= tier.min && qty <= tier.max;
+
+                return (
+                  <div
+                    key={i}
+                    onClick={() => setQty(tier.min)}
+                    className={`rounded-lg px-3 py-2 w-[95px] sm:w-[110px] text-center transition hover:scale-105
+                      ${
+                        isActive
+                          ? "border-2 border-orange-500 bg-white"
+                          : "bg-gray-100 hover:bg-gray-200"
+                      }`}
+                  >
+                    <p className="text-[10px] sm:text-xs text-gray-500">
+                      {tier.max === Infinity
+                        ? `${tier.min}+`
+                        : `${tier.min}–${tier.max}`}{" "}
+                      units
+                    </p>
+
+                    <p className="text-orange-600 font-bold text-sm sm:text-lg">
+                      ₹{tier.price}
+                    </p>
+
+                    {!isActive && (
+                      <p className="text-green-600 text-[10px] sm:text-xs">
+                        Save{" "}
+                        {Math.round(
+                          ((580 - tier.price) / 580) * 100
+                        )}
+                        %
+                      </p>
+                    )}
                   </div>
-                </motion.div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           {/* QUANTITY */}
-          <div className="flex items-center gap-4 mt-6">
-            <span className="text-sm">Quantity:</span>
+          <div className="flex flex-wrap items-center gap-3 mt-3">
+            <span className="text-sm text-black-700">Quantity:</span>
 
-            <div className="flex items-center border rounded-lg overflow-hidden">
+            <div className="flex items-center border rounded-lg overflow-hidden shadow-sm">
               <button
-                onClick={decrease}
-                className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+                onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
+                className="px-3 sm:px-4 py-1 bg-gray-100 hover:bg-gray-200 transition"
               >
                 -
               </button>
 
-              <span className="px-4">{qty}</span>
+              <input
+                type="number"
+                value={qty}
+                onChange={(e) => setQty(Number(e.target.value))}
+                className="w-14 sm:w-16 text-center outline-none"
+              />
 
               <button
-                onClick={increase}
-                className="px-3 py-1 bg-gray-200 hover:bg-gray-300"
+                onClick={() => setQty(qty + 1)}
+                className="px-3 sm:px-4 py-1 bg-gray-100 hover:bg-gray-200 transition"
               >
                 +
               </button>
             </div>
 
-            <span className="text-xs text-gray-500">
-              Min. 50 units
+            <span className="text-xs sm:text-sm text-gray-500">
+              Min. {product.min}
             </span>
           </div>
 
+          {/* ✅ DYNAMIC PRICE DISPLAY */}
+          {/* <p className="text-lg font-bold text-orange-600 mt-2">
+            ₹{activeTier?.price}/unit
+          </p> */}
+
           {/* BUTTONS */}
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={addToCart}
-            className="w-full mt-6 bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition"
-          >
-            🛒 Add to Cart
-          </motion.button>
+          <div className="mt-4 space-y-2">
 
-          <button className="w-full mt-3 border py-3 rounded-lg hover:bg-gray-200">
-            📩 Send Enquiry
-          </button>
+            <button className="w-full cursor-pointer bg-orange-500 hover:bg-orange-600 hover:scale-[1.02] active:scale-[0.98] text-white py-1.5 rounded-lg font-semibold text-sm sm:text-lg transition duration-200 shadow">
+              🛒 Add to Cart
+            </button>
 
-          <button className="w-full mt-3 border py-3 rounded-lg hover:bg-gray-200">
-            ❤️ Save
-          </button>
+            <button className="w-full border cursor-pointer border-gray-400 py-1.5 rounded-lg font-medium hover:bg-gray-300 transition">
+              📄 Send Enquiry
+            </button>
+
+            <button className="w-full cursor-pointer bg-gray-200 py-1.5  rounded-lg font-medium text-gray-700 hover:bg-gray-300 transition">
+              Buy
+            </button>
+
+          </div>
 
           {/* SPECIFICATIONS */}
-          <div className="mt-6">
-            <h3 className="font-semibold mb-2">
+          <div className="mt-4 rounded-xl shadow-sm p-3">
+            <h3 className="font-semibold text-sm sm:text-md mb-1">
               Product Specifications
             </h3>
 
-            <div className="text-sm space-y-1 text-gray-600">
-              <p>Brand: {product.brand}</p>
-              <p>Type: TWS Earbuds</p>
-              <p>Battery: 6+24hr</p>
-              <p>Bluetooth: 5.3</p>
-              <p>Water: IPX5</p>
-              <p>MOQ: 50 units</p>
+            <div className="text-xs sm:text-sm ">
+              {[
+                ["Brand", product.brand],
+                ["Type", "TWS Earbuds"],
+                ["Battery", "6+24hr"],
+                ["Bluetooth", "5.3"],
+                ["Water", "IPX5"],
+                ["MOQ", product.min],
+              ].map((item, i) => (
+                <div key={i} className="flex justify-between py-1 px-1">
+                  <span className="text-gray-500">{item[0]}</span>
+                  <span>{item[1]}</span>
+                </div>
+              ))}
             </div>
           </div>
+
+          {/* SELLER CARD */}
+          <div className="mt-4 bg-white p-4 rounded-xl shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 hover:shadow-md transition">
+            <div className="flex items-center gap-3">
+              <div className="bg-blue-900 text-white w-10 h-10 flex items-center justify-center rounded-lg font-bold">
+                TL
+              </div>
+              <div>
+                <p className="font-medium">{product.company}</p>
+                <p className="text-xs text-gray-500">
+                  📍 Bengaluru • Electronics
+                </p>
+              </div>
+            </div>
+
+            <button className="border px-4 py-2 rounded-lg text-orange-500 border-orange-400 hover:bg-orange-50 hover:scale-105 transition cursor-pointer">
+              View Profile →
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
