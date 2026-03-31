@@ -57,7 +57,7 @@ export const arrivalProducts = [
     company: "CleanCare",
     brand: "CleanCare",
     tag: "New",
-    image: "https://images.unsplash.com/photo-1585238342028-4b2cfcab8d6d",
+    image: "https://images.pexels.com/photos/10853701/pexels-photo-10853701.jpeg",
   },
   {
     id: "n7",
@@ -87,7 +87,7 @@ export const arrivalProducts = [
     company: "AgroFresh",
     brand: "AgroFresh",
     tag: "New",
-    image: "https://images.unsplash.com/photo-1582515073490-dc0a3a1f3e02",
+    image: "https://images.pexels.com/photos/10904921/pexels-photo-10904921.jpeg",
   },
   {
     id: "n10",
