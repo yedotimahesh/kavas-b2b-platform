@@ -3,7 +3,7 @@ import { products } from "@/data/products";
 
 export default function TrendingProducts() {
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
 
         {/* HEADER */}
@@ -21,7 +21,7 @@ export default function TrendingProducts() {
           {products.map((item) => (
             <Link
               key={item.id}
-              href={`/products/${item.id}`}   // ✅ IMPORTANT
+              href={`/products/${item.id}`}
               className="bg-white rounded-xl shadow hover:shadow-xl transition group overflow-hidden"
             >
               <div className="h-56 overflow-hidden">
