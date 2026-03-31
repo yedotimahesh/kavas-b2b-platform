@@ -109,7 +109,6 @@ export default function NewArrivals() {
     <div className="bg-gray-50">
       <div className="p-6 min-h-screen max-w-7xl mx-auto">
 
-        {/* HEADER */}
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-2">
             <span className="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">
@@ -118,8 +117,6 @@ export default function NewArrivals() {
             <h2 className="text-xl font-semibold">New Arrivals</h2>
           </div>
         </div>
-
-        {/* GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
 
           {arrivalProducts.map((item) => (
@@ -127,7 +124,6 @@ export default function NewArrivals() {
 
               <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group overflow-hidden transform hover:-translate-y-2 h-80 flex flex-col">
 
-                {/* IMAGE */}
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src={item.image}
@@ -139,7 +135,6 @@ export default function NewArrivals() {
                   </span>
                 </div>
 
-                {/* CONTENT */}
                 <div className="p-3 flex flex-col justify-between flex-1">
                   <div>
                     <h3 className="text-sm font-medium line-clamp-2">
