@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { MapPin, Search, ShoppingCart, Moon, Heart, ChevronDown, User, Package, HelpCircle, X } from "lucide-react";
@@ -6,14 +7,15 @@ import Login from "../auth/Login";
 import Register from "../auth/Register";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { logout as logoutAction } from "@/store/slices/authSlice";
-import { logoutUser } from "@/services/authService";
+import { logoutUserThunk } from "@/store/slices/authSlice";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState("login");
     const [darkMode, setDarkMode] = useState(false);
     const [favOpen, setFavOpen] = useState(false);
+    const router = useRouter(); 
 
     useEffect(() => {
         const saved = localStorage.getItem("theme");
@@ -40,7 +42,9 @@ const Navbar = () => {
     const [dropdown, setDropdown] = useState(false);
 
     const dispatch = useDispatch();
-    const { user, isAuthenticated } = useSelector((state) => state.auth);
+    const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
+
+    // if (loading) return null;
 
     const [initialEmail, setInitialEmail] = useState("");
     const dropdownRef = useRef(null);
@@ -59,14 +63,9 @@ const Navbar = () => {
         };
     }, []);
 
-    const handleLogout = async () => {
-        try {
-            await logoutUser();
-        } catch (e) {
-        } finally {
-            dispatch(logoutAction());
-            setDropdown(false);
-        }
+    const handleLogout = () => {
+        dispatch(logoutUserThunk());
+        setDropdown(false);
     };
 
     return (
@@ -127,8 +126,8 @@ const Navbar = () => {
                                         </span>
                                     </Button>
                                     {dropdown && (
-                                        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 overflow-hidden">
-                                            <div className="px-4 py-3 text-xs bg-orange-500 text-white border-b font-bold justify-center flex">
+                                        <div className="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg z-50 overflow-hidden dark:bg-gray-900 dark:text-white">
+                                            <div className="px-4 py-3 text-xs bg-orange-500 text-white dark:bg-gray-900 border-b font-bold justify-center flex">
                                                 {user?.email}
                                             </div>
                                             <div className="flex flex-col">

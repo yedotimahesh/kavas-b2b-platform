@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUser, logoutUser, registerUserAPI, } from "@/services/authService";
+import { loginUser, logoutUser, registerUserAPI, getMe, } from "@/services/authService";
 
 // ================== THUNKS ==================
 
-export const loginUserThunk = createAsyncThunk(
-  "auth/loginUser",
+export const loginUserThunk = createAsyncThunk( "auth/loginUser",
   async (data, { rejectWithValue }) => {
     try {
       const res = await loginUser(data);
@@ -15,8 +14,18 @@ export const loginUserThunk = createAsyncThunk(
   }
 );
 
-export const registerUserThunk = createAsyncThunk(
-  "auth/registerUser",
+export const loadUserThunk = createAsyncThunk( "auth/loadUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await getMe(); // 🔥 uses cookie
+      return res.data;
+    } catch (err) {
+      return rejectWithValue("Not authenticated");
+    }
+  }
+);
+
+export const registerUserThunk = createAsyncThunk( "auth/registerUser",
   async (data, { rejectWithValue }) => {
     try {
       const res = await registerUserAPI(data);
@@ -27,8 +36,7 @@ export const registerUserThunk = createAsyncThunk(
   }
 );
 
-export const logoutUserThunk = createAsyncThunk(
-  "auth/logoutUser",
+export const logoutUserThunk = createAsyncThunk( "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
       await logoutUser();
@@ -42,10 +50,11 @@ export const logoutUserThunk = createAsyncThunk(
 // ================== SLICE ==================
 
 const initialState = {
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  loading: false,
+   user: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("user")) || null : null,
+  token: typeof window !== "undefined" ? localStorage.getItem("token") || null : null,
+  isAuthenticated: typeof window !== "undefined" ? !!localStorage.getItem("user") : false,
+  loading: false, 
+  loginLoading: false,
   error: null,
 };
 
@@ -54,63 +63,66 @@ const authSlice = createSlice({
   initialState,
 
   reducers: {
-    // optional manual logout (fallback)
     logout: (state) => {
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+    },
+
+    setUser: (state, action) => {
+      state.user = action.payload;
+      state.isAuthenticated = true;
+    },
+
+    setToken: (state, action) => {
+      state.token = action.payload;
     },
   },
 
   extraReducers: (builder) => {
     builder
 
-      // ================== LOGIN ==================
+      // LOGIN
       .addCase(loginUserThunk.pending, (state) => {
-        state.loading = true;
+        state.loginLoading = true;
         state.error = null;
       })
+
       .addCase(loginUserThunk.fulfilled, (state, action) => {
-        state.loading = false;
-
-        // 👉 adjust based on backend response
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.token = action.payload.accessToken; 
         state.isAuthenticated = true;
+        state.loginLoading = false;
       })
+
       .addCase(loginUserThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+        state.loginLoading = false;
+        state.error = action.payload || action.error;
+       })
 
-      // ================== REGISTER ==================
-      .addCase(registerUserThunk.pending, (state) => {
+      // LOAD USER (🔥 KEY PART)
+      .addCase(loadUserThunk.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
-      .addCase(registerUserThunk.fulfilled, (state, action) => {
+      .addCase(loadUserThunk.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.isAuthenticated = true;
         state.loading = false;
-
-        // 👉 usually register doesn't log in automatically
-        state.user = action.payload.user || null;
+      })
+      .addCase(loadUserThunk.rejected, (state) => {
+        state.user = null;
         state.isAuthenticated = false;
-      })
-      .addCase(registerUserThunk.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
       })
 
-      // ================== LOGOUT ==================
+      // LOGOUT
       .addCase(logoutUserThunk.fulfilled, (state) => {
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
-      })
-      .addCase(logoutUserThunk.rejected, (state, action) => {
-        state.error = action.payload;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setUser, setToken } = authSlice.actions;
 export default authSlice.reducer;
