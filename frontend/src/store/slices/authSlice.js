@@ -50,10 +50,11 @@ export const logoutUserThunk = createAsyncThunk( "auth/logoutUser",
 // ================== SLICE ==================
 
 const initialState = {
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  loading: true, // 🔥 important
+   user: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("user")) || null : null,
+  token: typeof window !== "undefined" ? localStorage.getItem("token") || null : null,
+  isAuthenticated: typeof window !== "undefined" ? !!localStorage.getItem("user") : false,
+  loading: false, 
+  loginLoading: false,
   error: null,
 };
 
@@ -82,12 +83,22 @@ const authSlice = createSlice({
     builder
 
       // LOGIN
+      .addCase(loginUserThunk.pending, (state) => {
+        state.loginLoading = true;
+        state.error = null;
+      })
+
       .addCase(loginUserThunk.fulfilled, (state, action) => {
         state.user = action.payload.user;
-        state.token = action.payload.accessToken; // ✅ FIXED
+        state.token = action.payload.accessToken; 
         state.isAuthenticated = true;
-        state.loading = false;
+        state.loginLoading = false;
       })
+
+      .addCase(loginUserThunk.rejected, (state, action) => {
+        state.loginLoading = false;
+        state.error = action.payload || action.error;
+       })
 
       // LOAD USER (🔥 KEY PART)
       .addCase(loadUserThunk.pending, (state) => {

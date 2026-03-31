@@ -1,3 +1,13 @@
+// import React from 'react'
+
+// const AdminSidebar = () => {
+//   return (
+//     <div className="fixed left-0 top-0 w-64 h-screen bg-[#111] text-white z-40 p-4">AdminSidebar</div>
+//   )
+// }
+
+// export default AdminSidebar
+
 "use client";
 
 import Link from "next/link";
@@ -9,7 +19,7 @@ const Sidebar = () => {
   const pathname = usePathname(); 
 
   return (
-    <div className="w-64 h-screen bg-[#111] text-white flex flex-col p-4">
+    <div className="fixed left-0 top-0 w-64 h-screen bg-[#111] text-white flex flex-col p-4 z-40">
       <div className="flex items-center gap-3 mb-6">
         <div className="bg-orange-500 w-10 h-10 flex items-center justify-center rounded-md font-bold">K</div>
         <div>
