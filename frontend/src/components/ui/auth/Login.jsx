@@ -1,14 +1,20 @@
 "use client";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserThunk } from "@/store/slices/authSlice";
 
-const Login = ({ open, setOpen, setMode }) => {
+const Login = ({ open, setOpen, setMode, initialEmail = "" }) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState({ email: "", password: "", });
-  const { loading, error } = useSelector((state) => state.auth);
+  const { loginLoading, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (!open) return;
+    if (!initialEmail) return;
+    setForm((prev) => ({ ...prev, email: initialEmail }));
+  }, [open, initialEmail]);
 
   if (!open) return null;
 
@@ -30,7 +36,7 @@ const Login = ({ open, setOpen, setMode }) => {
       onClick={() => setOpen(false)}
     >
       <div
-        className="w-full max-w-md bg-white relative rounded-2xl shadow-lg p-4 sm:p-5 md:p-6 max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-md bg-white relative rounded-2xl shadow-lg p-4 sm:p-5 md:p-6 max-h-[90vh] overflow-y-auto dark:bg-gray-900"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close */}
@@ -90,7 +96,7 @@ const Login = ({ open, setOpen, setMode }) => {
 
           {/* Error */}
           {error && (
-            <p className="text-red-500 text-xs mt-1">{error}</p>
+            <p className="text-red-500 text-xs mt-1">{error.message}</p>
           )}
 
           {/* Forgot */}
@@ -103,10 +109,10 @@ const Login = ({ open, setOpen, setMode }) => {
           {/* Submit */}
           <button
             type="submit"
-            disabled={loading}
+            disabled={loginLoading}
             className="w-full py-1.5 sm:py-2 text-sm font-semibold text-white rounded-md bg-orange-500 hover:bg-orange-600 disabled:opacity-60"
           >
-            {loading ? "Signing in..." : "Sign in to Kavas"}
+            {loginLoading ? "Signing in..." : "Sign in to Kavas"}
           </button>
         </form>
 
