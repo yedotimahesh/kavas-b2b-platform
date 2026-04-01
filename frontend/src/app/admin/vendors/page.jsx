@@ -7,7 +7,7 @@ const vendorsData = [
     category: "Electronics",
     rating: 4.8,
     orders: 340,
-    revenue: "$420K",
+    revenue: "₹420K",
     status: "Approved",
   },
   {
@@ -15,7 +15,7 @@ const vendorsData = [
     category: "Raw Materials",
     rating: 4.5,
     orders: 210,
-    revenue: "$185K",
+    revenue: "₹185K",
     status: "Approved",
   },
   {
@@ -23,7 +23,7 @@ const vendorsData = [
     category: "Chemicals",
     rating: 3.9,
     orders: 88,
-    revenue: "$76K",
+    revenue: "₹76K",
     status: "Pending KYC",
   },
   {
@@ -31,7 +31,7 @@ const vendorsData = [
     category: "Textiles",
     rating: 4.1,
     orders: 157,
-    revenue: "$98K",
+    revenue: "₹98K",
     status: "Approved",
   },
   {
@@ -39,7 +39,7 @@ const vendorsData = [
     category: "Machinery",
     rating: 2.8,
     orders: 44,
-    revenue: "$32K",
+    revenue: "₹32K",
     status: "Flagged",
   },
   {
@@ -47,7 +47,7 @@ const vendorsData = [
     category: "Organic",
     rating: 4.7,
     orders: 73,
-    revenue: "$54K",
+    revenue: "₹54K",
     status: "Pending KYC",
   },
 ];

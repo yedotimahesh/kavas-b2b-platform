@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 
 const ordersData = [
@@ -6,7 +6,7 @@ const ordersData = [
     id: "#10482",
     buyer: "Acme Corp",
     vendor: "NovaParts",
-    value: "$14,200",
+    value: 14200,
     date: "Mar 30",
     status: "Fulfilled",
   },
@@ -14,7 +14,7 @@ const ordersData = [
     id: "#10481",
     buyer: "BuildMart",
     vendor: "SteelWorks",
-    value: "$8,750",
+    value: 8750,
     date: "Mar 30",
     status: "Processing",
   },
@@ -22,7 +22,7 @@ const ordersData = [
     id: "#10480",
     buyer: "TechSource",
     vendor: "NovaParts",
-    value: "$31,000",
+    value: 31000,
     date: "Mar 29",
     status: "Fulfilled",
   },
@@ -30,7 +30,7 @@ const ordersData = [
     id: "#10479",
     buyer: "GlobeTraders",
     vendor: "MachTech",
-    value: "$5,200",
+    value: 5200,
     date: "Mar 28",
     status: "Disputed",
   },
@@ -38,7 +38,7 @@ const ordersData = [
     id: "#10478",
     buyer: "Nexlane",
     vendor: "TexLine",
-    value: "$9,100",
+    value: 9100,
     date: "Mar 27",
     status: "Fulfilled",
   },
@@ -53,9 +53,17 @@ const statusStyles = {
 export default function OrdersTable() {
   const [search, setSearch] = useState("");
 
-  const filtered = ordersData.filter((o) =>
-    o.id.toLowerCase().includes(search.toLowerCase())
-  );
+  // ✅ Improved Search Filter
+  const filtered = ordersData.filter((o) => {
+    const term = search.toLowerCase().trim();
+
+    return (
+      o.id.toLowerCase().includes(term) ||
+      o.buyer.toLowerCase().includes(term) ||
+      o.vendor.toLowerCase().includes(term) ||
+      o.status.toLowerCase().includes(term)
+    );
+  });
 
   return (
     <div className="p-4 md:p-8 bg-[#0b1220] min-h-screen text-white">
@@ -67,7 +75,7 @@ export default function OrdersTable() {
           <input
             type="text"
             placeholder="Search orders..."
-            className="px-4 py-2 rounded-lg bg-[#111827] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="px-4 py-2 rounded-lg bg-[#111827] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition w-48 md:w-64"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -99,29 +107,40 @@ export default function OrdersTable() {
           </thead>
 
           <tbody>
-            {filtered.map((o, i) => (
-              <tr
-                key={i}
-                className="border-t border-gray-800 hover:bg-[#111827] transition duration-200 cursor-pointer"
-              >
-                <td className="px-6 py-4 font-medium text-blue-400 hover:underline">
-                  {o.id}
-                </td>
-                <td className="px-6 py-4">{o.buyer}</td>
-                <td className="px-6 py-4 text-gray-300">{o.vendor}</td>
-                <td className="px-6 py-4 text-orange-400 font-medium">
-                  {o.value}
-                </td>
-                <td className="px-6 py-4">{o.date}</td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs ${statusStyles[o.status]}`}
-                  >
-                    {o.status}
-                  </span>
+            {filtered.length > 0 ? (
+              filtered.map((o, i) => (
+                <tr
+                  key={i}
+                  className="border-t border-gray-800 hover:bg-[#111827] transition duration-200 cursor-pointer"
+                >
+                  <td className="px-6 py-4 font-medium text-blue-400 hover:underline">
+                    {o.id}
+                  </td>
+                  <td className="px-6 py-4">{o.buyer}</td>
+                  <td className="px-6 py-4 text-gray-300">{o.vendor}</td>
+
+                  {/* ✅ INR FORMAT */}
+                  <td className="px-6 py-4 text-orange-400 font-medium">
+                    ₹{o.value.toLocaleString("en-IN")}
+                  </td>
+
+                  <td className="px-6 py-4">{o.date}</td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs ${statusStyles[o.status]}`}
+                    >
+                      {o.status}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center py-6 text-gray-400">
+                  No orders found
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
