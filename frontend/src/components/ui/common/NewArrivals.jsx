@@ -114,15 +114,15 @@ export default function NewArrivals() {
               NEW
             </span>
             <h2 className="text-xl font-semibold">New Arrivals</h2>
+            <span className="text-orange-500 text-sm cursor-pointer hover:underline">
+            View all →
+          </span>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-
           {arrivalProducts.map((item) => (
-            <Link key={item.id} href={`/arrivalProducts/${item.id}`}>
-
+            <Link key={item.id} href={`/newproducts/${item.id}`}>
               <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group overflow-hidden transform hover:-translate-y-2 h-80 flex flex-col">
-
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src={item.image}
