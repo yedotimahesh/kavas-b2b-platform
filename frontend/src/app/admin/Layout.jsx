@@ -16,12 +16,21 @@ const AdminLayout = ({ children }) => {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-[#0B1626] min-h-screen text-white">
+
       <Sidebar />
       <AdminHeader />
-      <main className="ml-64 mt-16 p-6 h-[calc(100vh-64px)] overflow-y-auto">
+
+      {/* Main Content */}
+      <main className="
+        pt-16           /* space for header */
+        md:pl-60        /* sidebar width */
+        px-4 md:px-6 
+        w-full
+      ">
         {children}
       </main>
+
     </div>
   );
 };
