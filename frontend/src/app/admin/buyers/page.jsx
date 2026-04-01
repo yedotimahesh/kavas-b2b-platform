@@ -72,7 +72,7 @@ export default function BuyersTable() {
   );
 
   return (
-    <div className="p-4  text-white bg-[#0b1220]">
+    <div className="p-4  text-white ">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4  mb-6">
         <h1 className="text-2xl font-semibold"></h1>
@@ -81,7 +81,7 @@ export default function BuyersTable() {
           <input
             type="text"
             placeholder="Search..."
-            className="px-4 py-2 rounded-lg bg-[#111827] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            className="px-4 py-2 rounded-lg  border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

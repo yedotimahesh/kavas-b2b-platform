@@ -10,7 +10,7 @@ export default function DashboardBody() {
         {[
           {
             title: "TOTAL GMV",
-            value: "$2.4M",
+            value: "₹2.4M",
             change: "↑ 12.4% vs last month",
             color: "text-green-400",
             border: "border-l-4 border-orange-400",
@@ -74,28 +74,28 @@ export default function DashboardBody() {
                 {
                   id: "#10482",
                   buyer: "Acme Corp",
-                  value: "$14,200",
+                  value: "₹14,200",
                   status: "Fulfilled",
                   color: "bg-green-500/20 text-green-400",
                 },
                 {
                   id: "#10481",
                   buyer: "BuildMart",
-                  value: "$8,750",
+                  value: "₹8,750",
                   status: "Pending",
                   color: "bg-yellow-500/20 text-yellow-400",
                 },
                 {
                   id: "#10480",
                   buyer: "TechSource",
-                  value: "$31,000",
+                  value: "₹31,000",
                   status: "Fulfilled",
                   color: "bg-green-500/20 text-green-400",
                 },
                 {
                   id: "#10479",
                   buyer: "GlobeTraders",
-                  value: "$5,200",
+                  value: "₹5,200",
                   status: "Disputed",
                   color: "bg-red-500/20 text-red-400",
                 },
