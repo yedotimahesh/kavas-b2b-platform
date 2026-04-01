@@ -1,4 +1,8 @@
+"use client";
 import Link from "next/link";
+import { useRef } from "react";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const newProducts = [
   {
@@ -104,49 +108,95 @@ const newProducts = [
 ];
 
 export default function NewArrivals() {
+  const scrollRef = useRef(null);
+
+  const scrollLeft = () => {
+    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  };
+
+  const scrollRight = () => {
+    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+  };
+
   return (
-    <div className="bg-gray-50 dark:bg-gray-900">
-      <div className="p-6 min-h-screen max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-5">
-          <div className="flex items-center gap-2">
-            <span className="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded">
-              NEW
+    <div className="bg-gray-50 dark:bg-gray-900 py-6">
+      <div className="max-w-7xl mx-auto px-4">
+
+        {/* WHITE CONTAINER */}
+        <div className="bg-white rounded-2xl shadow p-5">
+          <div className="flex justify-between">
+            {/* HEADER */}
+            <h2 className="text-xl font-semibold border-l-4 border-orange-500 pl-2 mb-5">
+              New Arrivals
+            </h2>
+            <span className="text-orange-500 text-sm cursor-pointer hover:underline">
+              View all →
             </span>
-            <h2 className="text-xl font-semibold">New Arrivals</h2>
+          </div>
+
+          {/* MAIN ROW */}
+          <div className="flex items-center gap-3">
+
+            {/* LEFT BUTTON */}
+            <button
+              onClick={scrollLeft}
+              className="p-2 bg-gray-100 rounded-full hover:scale-110"
+            >
+              <ChevronLeft />
+            </button>
+
+            {/* PRODUCTS SCROLL */}
+            <div
+              ref={scrollRef}
+              className="flex gap-5 overflow-x-auto scroll-smooth no-scrollbar flex-1"
+            >
+              {newProducts.map((item) => (
+                <Link key={item.id} href={`/newproducts/${item.id}`}>
+                  <div className="min-w-55 bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group overflow-hidden transform hover:-translate-y-2 h-80 flex flex-col">
+
+                    <div className="relative h-56 overflow-hidden">
+                      <img
+                        src={item.image}
+                        className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                      />
+                      <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+                        New
+                      </span>
+                    </div>
+
+                    <div className="p-3 flex flex-col justify-between flex-1">
+                      <div>
+                        <h3 className="text-sm font-medium line-clamp-2">
+                          {item.title}
+                        </h3>
+                        <p className="text-orange-600 font-semibold mt-1">
+                          {item.price}
+                        </p>
+                        <p className="text-xs text-gray-500">{item.min}</p>
+                      </div>
+
+                      <div className="flex items-center mt-2 text-xs text-gray-600">
+                        <span className="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                        {item.brand}
+                      </div>
+                    </div>
+
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* RIGHT BUTTON */}
+            <button
+              onClick={scrollRight}
+              className="p-2 bg-gray-100 rounded-full hover:scale-110"
+            >
+              <ChevronRight />
+            </button>
+
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-          {newProducts.map((item) => (
-            <Link key={item.id} href={`/newproducts/${item.id}`}>
-              <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group overflow-hidden transform hover:-translate-y-2 h-80 flex flex-col">
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src={item.image}
-                    className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                  />
-                  <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">
-                    New
-                  </span>
-                </div>
-                <div className="p-3 flex flex-col justify-between flex-1">
-                  <div>
-                    <h3 className="text-sm font-medium line-clamp-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-orange-600 font-semibold mt-1">
-                      {item.price}
-                    </p>
-                    <p className="text-xs text-gray-500">{item.min}</p>
-                  </div>
-                  <div className="flex items-center mt-2 text-xs text-gray-600">
-                    <span className="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-                    {item.brand}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+
       </div>
     </div>
   );

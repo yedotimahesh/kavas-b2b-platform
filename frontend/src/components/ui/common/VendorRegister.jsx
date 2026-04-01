@@ -16,7 +16,7 @@ const VendorRegister = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <section className="bg-gradient-to-r from-[#5a2d0c] to-orange-500 text-white py-20 text-center">
+      <section className="bg-orange-500 text-white py-20 text-center">
         <div className="flex justify-center mb-4">
           <Factory size={40} />
         </div>
