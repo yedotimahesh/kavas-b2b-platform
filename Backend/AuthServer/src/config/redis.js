@@ -3,7 +3,7 @@ const Redis = require("ioredis");
 let redis;
 
 if (process.env.REDIS_URL) {
-  // 🌐 Production (Render / Upstash)
+  // 🌐 Production (Upstash)
   redis = new Redis(process.env.REDIS_URL, {
     tls: {}
   });
