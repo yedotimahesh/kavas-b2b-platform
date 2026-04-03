@@ -1,62 +1,88 @@
 const express = require("express");
 const cors = require("cors");
-const pool = require("./config/db");
 require("dotenv").config();
-
 const cookieParser = require("cookie-parser");
-const authRoutes = require("./routes/authRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const authMiddleware = require("./middleware/authMiddleware");
-const roleMiddleware = require("./middleware/roleMiddleware");
+const bcrypt = require("bcryptjs");
+
+const pool = require("./config/db");
+const { redis } = require("./config/redis");
 
 const app = express();
 
-// app.use(cors());
+// ✅ CORS (IMPORTANT)
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: [
+    "http://localhost:3000",
+    "https://your-vercel-url.vercel.app"
+  ],
   credentials: true
 }));
-app.use(express.json());
 
+app.use(express.json());
 app.use(cookieParser());
 
-app.use("/", authRoutes);
-app.use("/", adminRoutes);
 
-pool.query("SELECT NOW()")
-  .then(res => console.log("DB Connected:", res.rows))
-  .catch(err => console.error("DB Error:", err));
+// ========================
+// 🔐 LOGIN (DB BASED)
+// ========================
+app.post("/auth/login", async (req, res) => {
+  const { email, password } = req.body;
 
-app.get(
-  "/api/admin",
-  authMiddleware,
-  roleMiddleware("admin"),
-  (req, res) => {
-    res.json({ message: "Admin access granted" });
+  try {
+    const result = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    const user = result.rows[0];
+
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
+    return res.json({
+      message: "Login successful",
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.full_name
+      }
+    });
+
+  } catch (err) {
+    console.error("Login Error:", err);
+    res.status(500).json({ message: "Server error" });
   }
-);
-
-app.get(
-  "/api/vendor",
-  authMiddleware,
-  roleMiddleware("vendor", "admin"),
-  (req, res) => {
-    res.json({ message: "Vendor access granted" });
-  }
-);
-
-app.get(
-  "/api/user",
-  authMiddleware,
-  (req, res) => {
-    res.json({ message: "User access", user: req.user });
-  }
-);
-
-app.get("/", (req, res) => {
-  res.send("Server running");
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server running on ${process.env.PORT}`);
+
+// ========================
+// 🧪 TEST ROUTE
+// ========================
+app.get("/auth/me", (req, res) => {
+  res.json({ message: "Auth working" });
+});
+
+
+// ========================
+// HEALTH CHECK
+// ========================
+app.get("/", (req, res) => {
+  res.send("Auth Server Running 🚀");
+});
+
+
+// ========================
+// SERVER START
+// ========================
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => {
+  console.log(`Auth Server running on ${PORT}`);
 });

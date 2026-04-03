@@ -1,11 +1,21 @@
 import api from "@/lib/axios";
 
-export const registerAdminAPI = (data) => api.post("/admin/auth/register", data);
+export const registerAdmin = (data) => {
+  return api.post("/admin/auth/register", data);
+};
 
-export const loginAdminAPI = (data) => api.post("/admin/auth/login", data);
+export const loginAdmin = (data) => {
+  return api.post("/admin/auth/login", data);
+};
 
-export const refreshAdminToken = () => api.post("/admin/auth/refresh");
+export const refreshAdminToken = () => {
+  return api.post("/admin/auth/refresh");
+};
 
-export const logoutAdminAPI = () => api.post("/admin/auth/logout");
+export const logoutAdmin = () => {
+  return api.post("/admin/auth/logout");
+};
 
-export const getAdminProfile = () => api.get("/admin/auth/me");
+export const getAdminProfile = () => {
+  return api.get("/admin/auth/me");
+};

@@ -1,9 +1,16 @@
-import React from 'react'
+import api from "@/lib/axios";
 
-const orderService = () => {
-  return (
-    <div>orderService</div>
-  )
-}
+// ✅ Create order
+export const createOrder = (data) => {
+  return api.post("/orders", data);
+};
 
-export default orderService
+// ✅ Get all orders
+export const getOrders = () => {
+  return api.get("/orders");
+};
+
+// ✅ Get single order
+export const getOrderById = (id) => {
+  return api.get(`/orders/${id}`);
+};

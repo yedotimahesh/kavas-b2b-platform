@@ -2,19 +2,26 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-const productRoutes = require("./routes/productRoutes");
-
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/products", productRoutes);
-
+// Sample products
 app.get("/", (req, res) => {
-  res.send("API Server Running");
+  res.send("Product Server Running 🚀");
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`API Server running on ${process.env.PORT}`);
+app.get("/products", (req, res) => {
+  res.json([
+    { id: 1, name: "Laptop", price: 50000 },
+    { id: 2, name: "Phone", price: 20000 }
+  ]);
+});
+
+// ✅ FIXED PORT
+const PORT = process.env.PORT || 5002;
+
+app.listen(PORT, () => {
+  console.log(`Product Server running on ${PORT}`);
 });

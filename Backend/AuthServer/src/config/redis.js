@@ -3,12 +3,10 @@ const Redis = require("ioredis");
 let redis;
 
 if (process.env.REDIS_URL) {
-  // 🌐 Production (Upstash)
   redis = new Redis(process.env.REDIS_URL, {
     tls: {}
   });
 } else {
-  // 💻 Local (Docker)
   redis = new Redis({
     host: "127.0.0.1",
     port: 6379
