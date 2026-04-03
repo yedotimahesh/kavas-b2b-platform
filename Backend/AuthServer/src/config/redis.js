@@ -2,22 +2,25 @@ const Redis = require("ioredis");
 
 let redis;
 
-if (!global._redis) {
-  global._redis = new Redis(process.env.REDIS_URL, {
-    tls: {}, // ✅ REQUIRED for Upstash
-    maxRetriesPerRequest: 1, // reduce noise
-    enableReadyCheck: false,
+if (process.env.REDIS_URL) {
+  // 🌐 Production (Render / Upstash)
+  redis = new Redis(process.env.REDIS_URL, {
+    tls: {}
   });
-
-  global._redis.on("connect", () => {
-    console.log("✅ Redis connected");
-  });
-
-  global._redis.on("error", (err) => {
-    console.error("❌ Redis ERROR:", err.message);
+} else {
+  // 💻 Local (Docker)
+  redis = new Redis({
+    host: "127.0.0.1",
+    port: 6379
   });
 }
 
-redis = global._redis;
+redis.on("connect", () => {
+  console.log("✅ Redis connected");
+});
+
+redis.on("error", (err) => {
+  console.error("❌ Redis ERROR:", err.message);
+});
 
 module.exports = { redis };
