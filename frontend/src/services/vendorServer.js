@@ -1,9 +1,11 @@
-import React from 'react'
+import api from "@/lib/axios";
 
-const vendorServer = () => {
-  return (
-    <div>vendorServer</div>
-  )
-}
+// ✅ Get vendors
+export const getVendors = () => {
+  return api.get("/vendors");
+};
 
-export default vendorServer
+// ✅ Create vendor
+export const createVendor = (data) => {
+  return api.post("/vendors", data);
+};
