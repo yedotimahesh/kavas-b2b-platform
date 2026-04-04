@@ -1,26 +1,16 @@
 import api from "@/lib/axios";
 
-// ✅ Register
-export const registerUser = (data) => {
-  return api.post("/auth/register", data);
-};
+export const registerUserAPI = (data) =>
+  api.post("/api/auth/register", data);
 
-// ✅ Login
-export const loginUser = (data) => {
-  return api.post("/auth/login", data);
-};
+export const loginUser = (data) =>
+  api.post("/api/auth/login", data);
 
-// ✅ Refresh token
-export const refreshToken = () => {
-  return api.post("/auth/refresh");
-};
+export const logoutUser = () =>
+  api.post("/api/auth/logout");
 
-// ✅ Logout
-export const logoutUser = () => {
-  return api.post("/auth/logout");
-};
+export const refreshToken = () =>
+  api.post("/api/auth/refresh");
 
-// ✅ Get user profile
-export const getMe = () => {
-  return api.get("/auth/me");
-};
+export const getMe = () =>
+  api.get("/api/auth/me");
